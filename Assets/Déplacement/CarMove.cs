@@ -8,9 +8,13 @@ public class CarMove : MonoBehaviour
     public float vitesseGaucheDroite = 3;
     public float vitesseRotationAérienne = 50;
     public bool DéplacementLibre = true;
+    public bool AssistForLandscape = true;
 
     public float currentHeight = 0;
-    Vector2 angle;
+
+    float heightSpeed;
+    Vector3 angle = new Vector3();
+    Vector3 DesiredAngle = new Vector3();
     float currentPosition;
     int currentRoad;
 
@@ -25,46 +29,78 @@ public class CarMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (currentHeight == 0)//Si au sol
         {
+            ResetAngle();
             if (DéplacementLibre)//Déplacment libre
             {
                 currentPosition += Input.GetAxisRaw("Horizontal") * vitesseGaucheDroite * Time.deltaTime;
+                DesiredAngle.y = Input.GetAxisRaw("Horizontal") * 5;
                 currentPosition = Mathf.Clamp(currentPosition, GameSettings.getCenterRoad(0), GameSettings.getCenterRoad(GameSettings.instance.nbRoads - 1));
+                
             }
             else//Déplacement magnétique
             {
+
                 if (Input.GetButtonDown("Horizontal"))
                 {
                     if (Input.GetAxisRaw("Horizontal") > 0) currentRoad++;
                     if (Input.GetAxisRaw("Horizontal") < 0) currentRoad--;
+                    
+
                     currentRoad = Mathf.Clamp(currentRoad, 0, GameSettings.instance.nbRoads - 1);
                 }
                 float DéplacementLibre = GameSettings.getCenterRoad(currentRoad) - currentPosition;
                 float Abs = Mathf.Abs(DéplacementLibre);
                 float speedMove = vitesseGaucheDroite * Time.deltaTime;
-                if (Abs < speedMove) currentPosition = GameSettings.getCenterRoad(currentRoad);
+                if (Abs < speedMove)
+                {
+                    currentPosition = GameSettings.getCenterRoad(currentRoad);
+                    DesiredAngle.y = 0;
+                }
                 else
+                {
                     currentPosition += DéplacementLibre / Abs * speedMove;
+                    DesiredAngle.y = DéplacementLibre / Abs * 5;
+                }
 
             }
         }else // si dans les aires
         {
-            angle.x += Input.GetAxis("Horizontal") * Time.deltaTime * vitesseRotationAérienne;
-           angle.y += Input.GetAxis("Vertical") * Time.deltaTime * vitesseRotationAérienne;
+            Vector3 previousAngle = angle;
+            angle.y += Input.GetAxisRaw("Horizontal") * Time.deltaTime * vitesseRotationAérienne;
+           angle.x += Input.GetAxisRaw("Vertical") * Time.deltaTime * vitesseRotationAérienne;
 
-            transform.eulerAngles = Vector3.up * angle.x + Vector3.right * angle.y;
+            if (angle != previousAngle)
+                transform.eulerAngles = Vector3.up * angle.y + Vector3.right * angle.x;
+            else if (AssistForLandscape) ResetAngle();
+
         }
 
-
+        
+        
+        //Chute
         transform.position = currentPosition * Vector3.right + Vector3.up * (currentHeight+.76f);
 
     }
 
     private void ResetAngle()
     {
-        //while(angle.x)
+        Quaternion TargetRotation = Quaternion.Euler(DesiredAngle);
+
+        float indiceRotation = vitesseRotationAérienne/(Vector3.Angle(Vector3.up, transform.up) + Vector3.Angle(Vector3.forward, transform.forward));
+        indiceRotation *= Time.deltaTime;
+        if (indiceRotation > 1) indiceRotation = 1;
         
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, TargetRotation, indiceRotation);
+
+        angle = transform.rotation.eulerAngles;
+        
+
+        /*if ((DesiredAngle - angle).magnitude < vitesseRotationAérienne * Time.deltaTime) DesiredAngle = Vector2.zero;
+        else angle += DesiredAngle - angle / angle.magnitude * vitesseRotationAérienne * Time.deltaTime;*/
     }
 
     

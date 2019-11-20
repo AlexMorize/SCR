@@ -8,6 +8,7 @@ public class GameSettings : MonoBehaviour
 
     public int nbRoads = 3;
     public float widthRoads = 3;
+    public float GravityAcceleration = 10;
 
     public static float getCenterRoad(int numRoad)
     {
