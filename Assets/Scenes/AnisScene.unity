@@ -323,11 +323,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea24686989d73f74bae747614b83de79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wall: {fileID: 7365815149693220934, guid: fa7207d4d60e8ee49b36165f4fdea359, type: 3}
-  hole: {fileID: 7771443586765611038, guid: 53bac79e025abec469dd76f81566d8fb, type: 3}
-  AI_car: {fileID: 0}
-  eachSeconds: 1
-  random: 10
+  obstacles:
+  - {fileID: 7365815149693220934, guid: fa7207d4d60e8ee49b36165f4fdea359, type: 3}
+  - {fileID: 7771443586765611038, guid: 53bac79e025abec469dd76f81566d8fb, type: 3}
+  - {fileID: 8262763673802223910, guid: 4ad539c87f4378a4690de4021a3c86c3, type: 3}
+  eachSeconds: 0.1
+  random: 9
 --- !u!4 &988907181
 Transform:
   m_ObjectHideFlags: 0
@@ -355,7 +356,7 @@ GameObject:
   - component: {fileID: 1620627308}
   - component: {fileID: 1620627307}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
