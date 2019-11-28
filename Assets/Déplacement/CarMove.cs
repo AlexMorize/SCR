@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CarMove : MonoBehaviour
 {
-    
+
+    public float vitesse = 5;
     public float vitesseGaucheDroite = 3;
     public float vitesseRotationAérienne = 50;
     public bool DéplacementLibre = true;

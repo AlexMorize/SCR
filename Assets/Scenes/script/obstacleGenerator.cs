@@ -25,51 +25,92 @@ public class obstacleGenerator : MonoBehaviour
         
     }
 
+    void randomObstacles()
+    {
+
+
+
+    }
     void InstantiateObstacles()
     {
-        int randomNumber = Random.Range(0, random);
-        
+        int randomNumber = Random.Range(0, 5);
+        int randomNumber2 = Random.Range(0, 5);
+
+       
+
+        //
+        Debug.Log(GameSettings.getCenterRoad(1));
+
         // Obstacles
         if (randomNumber == 0)
         {
-            Instantiate(obstacles[0], new Vector3(-7.57f, 0.79f, 17.66f), Quaternion.identity);
+            int typeObstacles = Random.Range(0, 3);
+            int numVoie = Random.Range(0, 3);
+            // Vector3 newPosition = currentPosition * Vector3.right + Vector3.up * (currentHeight + .76f);
+            Instantiate(obstacles[typeObstacles], new Vector3(GameSettings.getCenterRoad(numVoie), 0.19f, 50), Quaternion.identity);
         }
-        if (randomNumber == 1)
+
+        if(randomNumber2 == 0)
         {
-            Instantiate(obstacles[0], new Vector3(-0.44f, 0.79f, 17.66f), Quaternion.identity);
-        }
-        if (randomNumber == 2)
-        {
-            Instantiate(obstacles[0], new Vector3(6.69f, 0.79f, 17.66f), Quaternion.identity);
+            int typeObstacles = Random.Range(0, 3);
+            int numVoie = Random.Range(0, 3);
+            // Vector3 newPosition = currentPosition * Vector3.right + Vector3.up * (currentHeight + .76f);
+            Instantiate(obstacles[typeObstacles], new Vector3(GameSettings.getCenterRoad(numVoie), 0.19f, 50), Quaternion.identity);
         }
         
         // hole
-        if(randomNumber == 4)
+/*        if(randomNumber == 4)
         {
-            Instantiate(obstacles[1], new Vector3(-7.57f, 0.201f, 17.66f), Quaternion.identity);
+            Instantiate(obstacles[1], new Vector3(GameSettings.getCenterRoad(0), 0.19f, 50), Quaternion.identity);
         }
         if (randomNumber == 5)
         {
-            Instantiate(obstacles[1], new Vector3(-0.44f, 0.201f, 17.66f), Quaternion.identity);
+            Instantiate(obstacles[1], new Vector3(GameSettings.getCenterRoad(1), 0.19f, 50), Quaternion.identity);
         }
         if (randomNumber == 6)
         {
-            Instantiate(obstacles[1], new Vector3(6.69f, 0.201f, 17.66f), Quaternion.identity);        
+            Instantiate(obstacles[1], new Vector3(GameSettings.getCenterRoad(2), 0.19f, 50), Quaternion.identity);        
         }
 
         // AI car
         if (randomNumber == 7)
         {
-            Instantiate(obstacles[2], new Vector3(-7.57f, 0.201f, 17.66f), Quaternion.identity);
+            Instantiate(obstacles[2], new Vector3(GameSettings.getCenterRoad(0), 0.19f, 50), Quaternion.identity);
         }
         if (randomNumber == 8)
         {
-            Instantiate(obstacles[2], new Vector3(-0.44f, 0.201f, 17.66f), Quaternion.identity);
+            Instantiate(obstacles[2], new Vector3(GameSettings.getCenterRoad(1), 0.19f, 50), Quaternion.identity);
         }
         if (randomNumber == 9)
         {
-            Instantiate(obstacles[2], new Vector3(6.69f, 0.201f, 17.66f), Quaternion.identity);
-        }
+            Instantiate(obstacles[2], new Vector3(GameSettings.getCenterRoad(2), 0.19f, 50), Quaternion.identity);
+        }*/
 
+
+        
+
+    }
+
+
+    void GetCurrentPosition(int currentRoad)
+    {
+
+        Debug.Log(GameSettings.getCenterRoad(1));
+/*
+        currentRoad = Mathf.Clamp(currentRoad, 0, GameSettings.instance.nbRoads - 1);
+        
+        float DéplacementLibre = GameSettings.getCenterRoad(currentRoad) - currentPosition;
+        float Abs = Mathf.Abs(DéplacementLibre);
+        float speedMove = vitesseGaucheDroite * Time.deltaTime;
+        if (Abs < speedMove)
+        {
+            currentPosition = GameSettings.getCenterRoad(currentRoad);
+            DesiredAngle.y = 0;
+        }
+        else
+        {
+            currentPosition += DéplacementLibre / Abs * speedMove;
+            DesiredAngle.y = DéplacementLibre / Abs * 5;
+        }*/
     }
 }
