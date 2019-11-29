@@ -19,31 +19,25 @@ public class Car_collison : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.name);
-        if(other.name == "car(Clone)")
+        if(other.name == "car(Clone)" || other.name == "wall(Clone)")
         {
-            this.GetComponent<CarMove>().vitesse = 0;
-            this.transform.rotation = Quaternion.Euler(0, 0, 180);
-            Destroy(this.GetComponent<CarMove>());
-            Destroy(GameObject.Find("obstacleGenerator"));
-            GameObject.Find("road").GetComponent<textureManagement>().loose = true;
+            Dead(Vector3.forward*180,transform.position);
         }
-        if (other.name == "hole(Clone)")
+        else if (other.name == "hole(Clone)")
         {
-            this.GetComponent<CarMove>().vitesse = 0;
-            this.transform.rotation = Quaternion.Euler(90, 0, 0);
-            this.transform.position = new Vector3(other.transform.position.x , other.transform.position.y, other.transform.position.z); 
-            Destroy(this.GetComponent<CarMove>());
-            Destroy(GameObject.Find("obstacleGenerator"));
-            GameObject.Find("road").GetComponent<textureManagement>().loose = true;
+            Dead(Vector3.right * 90, other.transform.position);
         }
-        if (other.name == "wall(Clone)")
-        {
-            this.GetComponent<CarMove>().vitesse = 0;
-            this.transform.rotation = Quaternion.Euler(0, 0, 180);
-            Destroy(this.GetComponent<CarMove>());
-            Destroy(GameObject.Find("obstacleGenerator"));
-            GameObject.Find("road").GetComponent<textureManagement>().loose = true;
-        }
-        
+
+    }
+
+    private void Dead(Vector3 rotation , Vector3 position)
+    {
+        this.GetComponent<CarMove>().vitesse = 0;
+        this.transform.rotation = Quaternion.Euler(rotation);
+        //this.transform.position = new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z);
+        this.transform.position = position;
+        this.GetComponent<CarMove>().enabled = false;
+        Destroy(GameObject.Find("obstacleGenerator"));
+        GameObject.Find("road").GetComponent<textureManagement>().loose = true;
     }
 }

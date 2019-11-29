@@ -15,7 +15,7 @@ public class movingTexture : MonoBehaviour
     {
         if (!this.GetComponentInParent<textureManagement>().loose)
         {
-            float offset = Time.time * (GameObject.Find("Car").GetComponent<CarMove>().vitesse / 4);
+            float offset = Time.time * (GameObject.Find("Car").GetComponent<CarMove>().vitesse / 3.5f);
             foreach (var item in GetComponent<Renderer>().materials)
             {
                 item.SetTextureOffset("_MainTex", new Vector2(0, offset));

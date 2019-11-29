@@ -24,7 +24,7 @@ public class moving : MonoBehaviour
             this.transform.position += new Vector3(0, 0, -1 * Time.deltaTime * car.GetComponent<CarMove>().vitesse);
         }
         
-        if ( this.gameObject.CompareTag("obtacle") && this.transform.position.z < disntanceFinal)
+        if ( this.gameObject.CompareTag("obstacle") && this.transform.position.z < disntanceFinal)
         {
             Destroy(gameObject);
         }
