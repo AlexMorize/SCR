@@ -16,14 +16,23 @@ public class Car_collison : MonoBehaviour
         
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnCollisionEnter(Collision other)
     {
-        Debug.Log(other.name);
-        if(other.name == "car(Clone)" || other.name == "wall(Clone)")
+        if (!enabled) return;
+        Debug.Log(other.gameObject.name);
+        if(other.gameObject.tag == "obstacle")
         {
-            Dead(Vector3.forward*180,transform.position);
+            Dead(transform.eulerAngles,transform.position);
+            CarMove car = GetComponent<CarMove>();
+            Rigidbody rigid = GetComponent<Rigidbody>();
+            rigid.constraints = RigidbodyConstraints.None;
+            rigid.velocity = Vector3.forward * car.vitesse + Vector3.up * 5;
+            rigid.angularVelocity = Vector3.right * 360 * car.vitesse /10 ;
+            car.vitesse = 0;
+            car.enabled = false;
+            Destroy(this);
         }
-        else if (other.name == "hole(Clone)")
+        else if (other.gameObject.name == "hole(Clone)")
         {
             Dead(Vector3.right * 90, other.transform.position);
         }

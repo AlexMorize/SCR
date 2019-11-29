@@ -47,7 +47,7 @@ public class obstacleGenerator : MonoBehaviour
             int typeObstacles = Random.Range(0, 3);
             int numVoie = Random.Range(0, 3);
             // Vector3 newPosition = currentPosition * Vector3.right + Vector3.up * (currentHeight + .76f);
-            Instantiate(obstacles[typeObstacles], new Vector3(GameSettings.getCenterRoad(numVoie), 0.19f, 50), Quaternion.identity);
+            Instantiate(obstacles[typeObstacles], new Vector3(GameSettings.getCenterRoad(numVoie), 0, 50), Quaternion.identity);
         }
 
         if(randomNumber2 == 0)
@@ -55,7 +55,7 @@ public class obstacleGenerator : MonoBehaviour
             int typeObstacles = Random.Range(0, 3);
             int numVoie = Random.Range(0, 3);
             // Vector3 newPosition = currentPosition * Vector3.right + Vector3.up * (currentHeight + .76f);
-            Instantiate(obstacles[typeObstacles], new Vector3(GameSettings.getCenterRoad(numVoie), 0.19f, 50), Quaternion.identity);
+            Instantiate(obstacles[typeObstacles], new Vector3(GameSettings.getCenterRoad(numVoie), 0, 50), Quaternion.identity);
         }
         
         // hole

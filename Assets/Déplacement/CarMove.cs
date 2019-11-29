@@ -8,8 +8,10 @@ public class CarMove : MonoBehaviour
     public float vitesse = 5;
     public float vitesseGaucheDroite = 3;
     public float vitesseRotationAérienne = 50;
+    public float vitesseRotationSol = 720;
     public bool DéplacementLibre = true;
     public bool AssistForLandscape = true;
+    public float angleRotation = 5;
 
     public float currentHeight = 0;
 
@@ -37,7 +39,7 @@ public class CarMove : MonoBehaviour
             if (DéplacementLibre)//Déplacment libre
             {
                 currentPosition += Input.GetAxisRaw("Horizontal") * vitesseGaucheDroite * Time.deltaTime;
-                DesiredAngle.y = Input.GetAxisRaw("Horizontal") * 5;
+                DesiredAngle.y = Input.GetAxisRaw("Horizontal") * angleRotation;
                 currentPosition = Mathf.Clamp(currentPosition, GameSettings.getCenterRoad(0), GameSettings.getCenterRoad(GameSettings.instance.nbRoads - 1));
                 
             }
@@ -70,11 +72,11 @@ public class CarMove : MonoBehaviour
         }else // si dans les aires
         {
             Vector3 previousAngle = angle;
-            angle.y += Input.GetAxisRaw("Horizontal") * Time.deltaTime * vitesseRotationAérienne;
+            angle.z += Input.GetAxisRaw("Horizontal") * Time.deltaTime * vitesseRotationAérienne;
            angle.x += Input.GetAxisRaw("Vertical") * Time.deltaTime * vitesseRotationAérienne;
 
             if (angle != previousAngle)
-                transform.eulerAngles = Vector3.up * angle.y + Vector3.right * angle.x;
+                transform.eulerAngles = Vector3.forward * angle.z + Vector3.right * angle.x;
             else if (AssistForLandscape) ResetAngle();
 
         }
@@ -90,7 +92,9 @@ public class CarMove : MonoBehaviour
     {
         Quaternion TargetRotation = Quaternion.Euler(DesiredAngle);
 
-        float indiceRotation = vitesseRotationAérienne/(Vector3.Angle(Vector3.up, transform.up) + Vector3.Angle(Vector3.forward, transform.forward));
+        float vitesseRotation = currentHeight > 0 ? vitesseRotationAérienne : vitesseRotationSol;
+
+        float indiceRotation = vitesseRotation / (Vector3.Angle(Vector3.up, transform.up) + Vector3.Angle(Vector3.forward, transform.forward));
         indiceRotation *= Time.deltaTime;
         if (indiceRotation > 1) indiceRotation = 1;
         
