@@ -6,6 +6,7 @@ TagManager:
   tags:
   - obstacle
   - tree
+  - hole
   layers:
   - Default
   - TransparentFX
