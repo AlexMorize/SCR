@@ -15,12 +15,15 @@ public class movingTexture : MonoBehaviour
     {
         if (!this.GetComponentInParent<textureManagement>().loose)
         {
-            float offset = Time.time * (GameObject.Find("Car").GetComponent<CarMove>().vitesse / 3.5f);
+            float offset = Time.time * (GameObject.Find("Car").GetComponent<CarMove>().vitesse / 3f );
+            if(this.CompareTag("terrain") )
+            {
+                offset = Time.time * (GameObject.Find("Car").GetComponent<CarMove>().vitesse / 15f);
+            }
             foreach (var item in GetComponent<Renderer>().materials)
             {
                 item.SetTextureOffset("_MainTex", new Vector2(0, offset));
             }
         }
-       
     }
 }

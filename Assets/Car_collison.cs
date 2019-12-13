@@ -60,7 +60,7 @@ public class Car_collison : MonoBehaviour
         //this.transform.position = new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z);
         this.transform.position = position;
         this.GetComponent<CarMove>().enabled = false;
-        Destroy(GameObject.Find("obstacleGenerator"));
+        //Destroy(GameObject.Find("obstacleGenerator"));
         GameObject.Find("road").GetComponent<textureManagement>().loose = true;
     }
 }

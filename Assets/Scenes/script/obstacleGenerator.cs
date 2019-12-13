@@ -11,6 +11,10 @@ public class obstacleGenerator : MonoBehaviour
 
     public int random = 10;
 
+    public int old_numVoie = 1;
+    public int old_numVoieSecondObject = 1;
+    public int numVoie;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,84 +37,71 @@ public class obstacleGenerator : MonoBehaviour
     }
     void InstantiateObstacles()
     {
-        int randomNumber = Random.Range(0, 5);
-        int randomNumber2 = Random.Range(0, 5);
+        int randomNumber = Random.Range(0, random);
+        int randomNumber2 = Random.Range(0, 3);
+        numVoie = Random.Range(0, 3);
+        int numVoieSecondObject = CalculRandomNumVoie(numVoie);
+        Debug.Log(numVoie);
 
-       
+        if((old_numVoie == 0 || old_numVoieSecondObject == 0) && (numVoie == 2 || numVoieSecondObject == 2) || (old_numVoie == 2 || old_numVoieSecondObject == 2) && (numVoie == 0 || numVoieSecondObject == 0))
+        {
+            numVoie = 0;
+            numVoieSecondObject = 2;
+        }
 
-        //
-        Debug.Log(GameSettings.getCenterRoad(1));
+        old_numVoie = numVoie;
+        old_numVoieSecondObject = numVoieSecondObject;
+
 
         // Obstacles
         if (randomNumber == 0)
         {
             int typeObstacles = Random.Range(0, 3);
-            int numVoie = Random.Range(0, 3);
-            // Vector3 newPosition = currentPosition * Vector3.right + Vector3.up * (currentHeight + .76f);
             Instantiate(obstacles[typeObstacles], new Vector3(GameSettings.getCenterRoad(numVoie), 0, 50), Quaternion.identity);
         }
 
         if(randomNumber2 == 0)
         {
             int typeObstacles = Random.Range(0, 3);
-            int numVoie = Random.Range(0, 3);
-            // Vector3 newPosition = currentPosition * Vector3.right + Vector3.up * (currentHeight + .76f);
-            Instantiate(obstacles[typeObstacles], new Vector3(GameSettings.getCenterRoad(numVoie), 0, 50), Quaternion.identity);
+            Instantiate(obstacles[typeObstacles], new Vector3(GameSettings.getCenterRoad(numVoieSecondObject), 0, 50), Quaternion.identity);
         }
         
-        // hole
-/*        if(randomNumber == 4)
-        {
-            Instantiate(obstacles[1], new Vector3(GameSettings.getCenterRoad(0), 0.19f, 50), Quaternion.identity);
-        }
-        if (randomNumber == 5)
-        {
-            Instantiate(obstacles[1], new Vector3(GameSettings.getCenterRoad(1), 0.19f, 50), Quaternion.identity);
-        }
-        if (randomNumber == 6)
-        {
-            Instantiate(obstacles[1], new Vector3(GameSettings.getCenterRoad(2), 0.19f, 50), Quaternion.identity);        
-        }
-
-        // AI car
-        if (randomNumber == 7)
-        {
-            Instantiate(obstacles[2], new Vector3(GameSettings.getCenterRoad(0), 0.19f, 50), Quaternion.identity);
-        }
-        if (randomNumber == 8)
-        {
-            Instantiate(obstacles[2], new Vector3(GameSettings.getCenterRoad(1), 0.19f, 50), Quaternion.identity);
-        }
-        if (randomNumber == 9)
-        {
-            Instantiate(obstacles[2], new Vector3(GameSettings.getCenterRoad(2), 0.19f, 50), Quaternion.identity);
-        }*/
-
-
-        
-
     }
 
 
-    void GetCurrentPosition(int currentRoad)
+    int CalculRandomNumVoie(int numVoie)
     {
+        int numVoieSecondObject = 0;
 
-        Debug.Log(GameSettings.getCenterRoad(1));
-/*
-        currentRoad = Mathf.Clamp(currentRoad, 0, GameSettings.instance.nbRoads - 1);
-        
-        float DéplacementLibre = GameSettings.getCenterRoad(currentRoad) - currentPosition;
-        float Abs = Mathf.Abs(DéplacementLibre);
-        float speedMove = vitesseGaucheDroite * Time.deltaTime;
-        if (Abs < speedMove)
+        if(numVoie == 0)
         {
-            currentPosition = GameSettings.getCenterRoad(currentRoad);
-            DesiredAngle.y = 0;
+            numVoieSecondObject = Random.Range(1, 3);
+        } 
+        else if (numVoie == 1)
+        {
+            int pivot = Random.Range(0, 2);
+            if(pivot == 0)
+            {
+                numVoieSecondObject = 0;
+            }
+            else
+            {
+                numVoieSecondObject = 2;
+            }
         }
         else
         {
-            currentPosition += DéplacementLibre / Abs * speedMove;
-            DesiredAngle.y = DéplacementLibre / Abs * 5;
-        }*/
+            int pivot = Random.Range(0, 2);
+            if (pivot == 0)
+            {
+                numVoieSecondObject = 0;
+            }
+            else
+            {
+                numVoieSecondObject = 1;
+            }
+        }
+        return numVoieSecondObject;
     }
+    
 }
