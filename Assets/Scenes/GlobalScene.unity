@@ -537,8 +537,11 @@ MonoBehaviour:
   - {fileID: 7365815149693220934, guid: fa7207d4d60e8ee49b36165f4fdea359, type: 3}
   - {fileID: 7771443586765611038, guid: 53bac79e025abec469dd76f81566d8fb, type: 3}
   - {fileID: 8262763673802223910, guid: 4ad539c87f4378a4690de4021a3c86c3, type: 3}
-  eachSeconds: 0.4
+  eachSeconds: 0.2
   random: 2
+  old_numVoie: 1
+  old_numVoieSecondObject: 1
+  numVoie: 0
 --- !u!4 &37349243
 Transform:
   m_ObjectHideFlags: 0
@@ -3870,7 +3873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a46772a71b7780f419a21d894b66c3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vitesse: 20
+  vitesse: 50
   vitesseGaucheDroite: 10
   "vitesseRotationA\xE9rienne": 400
   vitesseRotationSol: 360
