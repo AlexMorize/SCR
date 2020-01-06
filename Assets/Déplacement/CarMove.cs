@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class CarMove : MonoBehaviour
 {
-    
+
+    public float vitesse = 5;
     public float vitesseGaucheDroite = 3;
     public float vitesseRotationAérienne = 50;
+    public float vitesseRotationSol = 720;
     public bool DéplacementLibre = true;
     public bool AssistForLandscape = true;
+    public float angleRotation = 5;
+    public Camera cam;
 
     public float currentHeight = 0;
 
@@ -29,14 +33,19 @@ public class CarMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Vector3 camPos = cam.transform.position;
+        camPos.y = currentHeight + 3;
+        cam.transform.position = camPos;
+            
+       
+
         if (currentHeight == 0)//Si au sol
         {
             ResetAngle();
             if (DéplacementLibre)//Déplacment libre
             {
                 currentPosition += Input.GetAxisRaw("Horizontal") * vitesseGaucheDroite * Time.deltaTime;
-                DesiredAngle.y = Input.GetAxisRaw("Horizontal") * 5;
+                DesiredAngle.y = Input.GetAxisRaw("Horizontal") * angleRotation;
                 currentPosition = Mathf.Clamp(currentPosition, GameSettings.getCenterRoad(0), GameSettings.getCenterRoad(GameSettings.instance.nbRoads - 1));
                 
             }
@@ -68,18 +77,30 @@ public class CarMove : MonoBehaviour
             }
         }else // si dans les aires
         {
+            heightSpeed -= GameSettings.instance.GravityAcceleration * Time.deltaTime;
+
+           
+
             Vector3 previousAngle = angle;
-            angle.y += Input.GetAxisRaw("Horizontal") * Time.deltaTime * vitesseRotationAérienne;
+            angle.z += Input.GetAxisRaw("Horizontal") * Time.deltaTime * vitesseRotationAérienne;
            angle.x += Input.GetAxisRaw("Vertical") * Time.deltaTime * vitesseRotationAérienne;
 
             if (angle != previousAngle)
-                transform.eulerAngles = Vector3.up * angle.y + Vector3.right * angle.x;
+                transform.eulerAngles = Vector3.forward * angle.z + Vector3.right * angle.x;
             else if (AssistForLandscape) ResetAngle();
 
         }
 
-        
-        
+        currentHeight += heightSpeed * Time.deltaTime;
+
+        if (currentHeight < 0)
+        {
+            heightSpeed = 0;
+            currentHeight = 0;
+        }
+
+
+
         //Chute
         transform.position = currentPosition * Vector3.right + Vector3.up * (currentHeight+.76f);
 
@@ -89,7 +110,9 @@ public class CarMove : MonoBehaviour
     {
         Quaternion TargetRotation = Quaternion.Euler(DesiredAngle);
 
-        float indiceRotation = vitesseRotationAérienne/(Vector3.Angle(Vector3.up, transform.up) + Vector3.Angle(Vector3.forward, transform.forward) + Vector3.Angle(Vector3.right, transform.right))*3;
+        float vitesseRotation = currentHeight > 0 ? vitesseRotationAérienne : vitesseRotationSol;
+
+        float indiceRotation = vitesseRotation / (Vector3.Angle(Vector3.up, transform.up) + Vector3.Angle(Vector3.forward, transform.forward));
         indiceRotation *= Time.deltaTime;
         if (indiceRotation > 1) indiceRotation = 1;
         
@@ -101,6 +124,11 @@ public class CarMove : MonoBehaviour
 
         /*if ((DesiredAngle - angle).magnitude < vitesseRotationAérienne * Time.deltaTime) DesiredAngle = Vector2.zero;
         else angle += DesiredAngle - angle / angle.magnitude * vitesseRotationAérienne * Time.deltaTime;*/
+    }
+
+    public void DoJump()
+    {
+        heightSpeed = vitesse / 3;
     }
 
     
