@@ -89,7 +89,7 @@ public class CarMove : MonoBehaviour
     {
         Quaternion TargetRotation = Quaternion.Euler(DesiredAngle);
 
-        float indiceRotation = vitesseRotationAérienne/(Vector3.Angle(Vector3.up, transform.up) + Vector3.Angle(Vector3.forward, transform.forward));
+        float indiceRotation = vitesseRotationAérienne/(Vector3.Angle(Vector3.up, transform.up) + Vector3.Angle(Vector3.forward, transform.forward) + Vector3.Angle(Vector3.right, transform.right))*3;
         indiceRotation *= Time.deltaTime;
         if (indiceRotation > 1) indiceRotation = 1;
         
