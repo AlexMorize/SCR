@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class loadQuit : MonoBehaviour
+public class loadQuitAndPause : MonoBehaviour
 {
     bool isPaused = false;
     public void loadLevel()
@@ -19,6 +19,24 @@ public class loadQuit : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void Pause()
+    {
+        if (isPaused)
+        {
+            Time.timeScale = 1;
+            isPaused = false;
+        } else
+        {
+            Time.timeScale = 0;
+            isPaused = true;
+        }
+    }
+
+    public void Unpause()
+    {
+
     }
     // Start is called before the first frame update
     void Start()
