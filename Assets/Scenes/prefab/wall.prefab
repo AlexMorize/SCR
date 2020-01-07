@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5683564611485516946}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 2248039623700989118}
   - component: {fileID: 4435417778422355236}
   - component: {fileID: 9097608561952863623}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wall
   m_TagString: obstacle
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 5647118793595232248}
   - component: {fileID: 1562890972104733786}
   - component: {fileID: 5188592414901784345}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wall
   m_TagString: obstacle
   m_Icon: {fileID: 0}

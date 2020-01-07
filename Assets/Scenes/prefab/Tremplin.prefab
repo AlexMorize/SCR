@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2226710676535340806}
   - component: {fileID: 2226710676535340807}
   - component: {fileID: 6618744244165581801}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tremplin
   m_TagString: jumper
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 5625394039825196309}
   - component: {fileID: -8658457228471590636}
   - component: {fileID: 6572337912903498133}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tremplin
   m_TagString: jumper
   m_Icon: {fileID: 0}
