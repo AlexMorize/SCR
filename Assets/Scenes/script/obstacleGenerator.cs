@@ -117,7 +117,15 @@ public class obstacleGenerator : MonoBehaviour
         {
             int numObjet = Random.Range(0, objectProba.Length);
             int numVoie = Random.Range(0, GameSettings.instance.nbRoads);
-            Instantiate(objectProba[numObjet], new Vector3(GameSettings.getCenterRoad(numVoie), 0, 100), Quaternion.identity);
+            GameObject Instance = Instantiate(objectProba[numObjet], new Vector3(GameSettings.getCenterRoad(numVoie), 0, 100), Quaternion.identity);
+            if(Instance.GetComponent<moving>().vitesse!=0)
+            {
+                float timeToReachCar = 100 / car.vitesse;
+                Instance.transform.position += Vector3.forward * Instance.GetComponent<moving>().vitesse * timeToReachCar;
+            }
+
+
+
             LastObstacles.Add(numVoie);
         }
 
