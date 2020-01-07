@@ -9,10 +9,12 @@ public class Car_collison : MonoBehaviour
     public float crashForcePosition;
     public float crashUpPostion;
 
+    CarMove car;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        car = FindObjectOfType<CarMove>();
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class Car_collison : MonoBehaviour
         if(other.gameObject.tag == "obstacle")
         {
             Debug.Log(" sa passe pas creme");
-            CarMove car = GetComponent<CarMove>();
+            
             Rigidbody rigid = GetComponent<Rigidbody>();
             rigid.constraints = RigidbodyConstraints.None;
             //rigid.velocity = Vector3.forward * car.vitesse + Vector3.up * 10;
@@ -42,7 +44,7 @@ public class Car_collison : MonoBehaviour
             rigid.AddForce(Vector3.up * car.vitesse * crashUpPostion);
             rigid.AddTorque(Vector3.right * car.vitesse * crashForceRotation);
             Dead(transform.eulerAngles, transform.position);
-            car.enabled = false;
+            
             Destroy(this);
         }
         else if (other.gameObject.tag == "hole")
@@ -66,5 +68,7 @@ public class Car_collison : MonoBehaviour
         this.GetComponent<CarMove>().enabled = false;
         //Destroy(GameObject.Find("obstacleGenerator"));
         GameObject.Find("road").GetComponent<textureManagement>().loose = true;
+        car.enabled = false;
+        FindObjectOfType<MusicPlayer>().Stop();
     }
 }

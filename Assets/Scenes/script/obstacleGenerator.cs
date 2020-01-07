@@ -20,6 +20,7 @@ public class obstacleGenerator : MonoBehaviour
     public int numVoie;
 
     GameObject[] objectProba;
+    CarMove car;
 
     void InitProbaTab()
     {
@@ -44,6 +45,7 @@ public class obstacleGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        car = FindObjectOfType<CarMove>();
         InitProbaTab();
         InvokeRepeating("InstantiateObstacles", timeBeforeStart, eachSeconds);
     }
@@ -99,6 +101,11 @@ public class obstacleGenerator : MonoBehaviour
 
     void InstantiateObstacles()
     {
+        if(!car.enabled)
+        {
+            CancelInvoke("InstantiateObstacles");
+            return;
+        }
 
         List<int> VoieDispo = new List<int>();
         for (int i = 0; i < GameSettings.instance.nbRoads; i++)
