@@ -6,6 +6,9 @@ public class obstacleGenerator : MonoBehaviour
 {
 
     public List<GameObject> obstacles;
+    public List<int> TableauProbabilité;
+
+
 
     public float timeBeforeStart = 2;
     public float eachSeconds = 5;
@@ -16,9 +19,32 @@ public class obstacleGenerator : MonoBehaviour
     public int old_numVoieSecondObject = 1;
     public int numVoie;
 
+    GameObject[] objectProba;
+
+    void InitProbaTab()
+    {
+        int tabLength = 0;
+        foreach (int proba in TableauProbabilité)
+            tabLength += proba;
+        objectProba = new GameObject[tabLength];
+
+        int lastIndex = 0;
+
+        for (int i = 0; i < obstacles.Count; i++)
+        {
+            for (int j = 0; j < TableauProbabilité[i]; j++)
+            {
+                objectProba[lastIndex] = obstacles[i];
+                lastIndex++;
+            }
+        }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
+        InitProbaTab();
         InvokeRepeating("InstantiateObstacles", timeBeforeStart, eachSeconds);
     }
 
@@ -26,8 +52,8 @@ public class obstacleGenerator : MonoBehaviour
     void Update()
     {
 
-        
-        
+
+
     }
 
     void randomObstacles()
@@ -73,18 +99,18 @@ public class obstacleGenerator : MonoBehaviour
 
     void InstantiateObstacles()
     {
-        
+
         List<int> VoieDispo = new List<int>();
-        for(int i =0;i<GameSettings.instance.nbRoads;i++)
+        for (int i = 0; i < GameSettings.instance.nbRoads; i++)
         {
             if (!LastObstacles.Contains(i)) VoieDispo.Add(i);
         }
 
         if (VoieDispo.Count > 1)
         {
-            int numObjet = Random.Range(0, obstacles.Count);
+            int numObjet = Random.Range(0, objectProba.Length);
             int numVoie = Random.Range(0, GameSettings.instance.nbRoads);
-            Instantiate(obstacles[numObjet], new Vector3(GameSettings.getCenterRoad(numVoie), 0, 50), Quaternion.identity);
+            Instantiate(objectProba[numObjet], new Vector3(GameSettings.getCenterRoad(numVoie), 0, 100), Quaternion.identity);
             LastObstacles.Add(numVoie);
         }
 
@@ -95,14 +121,14 @@ public class obstacleGenerator : MonoBehaviour
     {
         int numVoieSecondObject = 0;
 
-        if(numVoie == 0)
+        if (numVoie == 0)
         {
             numVoieSecondObject = Random.Range(1, 3);
-        } 
+        }
         else if (numVoie == 1)
         {
             int pivot = Random.Range(0, 2);
-            if(pivot == 0)
+            if (pivot == 0)
             {
                 numVoieSecondObject = 0;
             }
@@ -125,5 +151,5 @@ public class obstacleGenerator : MonoBehaviour
         }
         return numVoieSecondObject;
     }
-    
+
 }

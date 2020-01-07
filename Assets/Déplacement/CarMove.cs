@@ -34,47 +34,47 @@ public class CarMove : MonoBehaviour
     void Update()
     {
         Vector3 camPos = cam.transform.position;
-        camPos.y = currentHeight + 3;
+        camPos.y = currentHeight + 5;
         cam.transform.position = camPos;
-            
-       
 
+
+        if (DéplacementLibre)//Déplacment libre
+        {
+            currentPosition += Input.GetAxisRaw("Horizontal") * vitesseGaucheDroite * Time.deltaTime;
+            DesiredAngle.y = Input.GetAxisRaw("Horizontal") * angleRotation;
+            currentPosition = Mathf.Clamp(currentPosition, GameSettings.getCenterRoad(0), GameSettings.getCenterRoad(GameSettings.instance.nbRoads - 1));
+
+        }
+        else//Déplacement magnétique
+        {
+
+            if (Input.GetButtonDown("Horizontal"))
+            {
+                if (Input.GetAxisRaw("Horizontal") > 0) currentRoad++;
+                if (Input.GetAxisRaw("Horizontal") < 0) currentRoad--;
+
+
+                currentRoad = Mathf.Clamp(currentRoad, 0, GameSettings.instance.nbRoads - 1);
+            }
+            float DéplacementLibre = GameSettings.getCenterRoad(currentRoad) - currentPosition;
+            float Abs = Mathf.Abs(DéplacementLibre);
+            float speedMove = vitesseGaucheDroite * Time.deltaTime;
+            if (Abs < speedMove)
+            {
+                currentPosition = GameSettings.getCenterRoad(currentRoad);
+                DesiredAngle.y = 0;
+            }
+            else
+            {
+                currentPosition += DéplacementLibre / Abs * speedMove;
+                DesiredAngle.y = DéplacementLibre / Abs * 5;
+            }
+
+        }
         if (currentHeight == 0)//Si au sol
         {
             ResetAngle();
-            if (DéplacementLibre)//Déplacment libre
-            {
-                currentPosition += Input.GetAxisRaw("Horizontal") * vitesseGaucheDroite * Time.deltaTime;
-                DesiredAngle.y = Input.GetAxisRaw("Horizontal") * angleRotation;
-                currentPosition = Mathf.Clamp(currentPosition, GameSettings.getCenterRoad(0), GameSettings.getCenterRoad(GameSettings.instance.nbRoads - 1));
-                
-            }
-            else//Déplacement magnétique
-            {
-
-                if (Input.GetButtonDown("Horizontal"))
-                {
-                    if (Input.GetAxisRaw("Horizontal") > 0) currentRoad++;
-                    if (Input.GetAxisRaw("Horizontal") < 0) currentRoad--;
-                    
-
-                    currentRoad = Mathf.Clamp(currentRoad, 0, GameSettings.instance.nbRoads - 1);
-                }
-                float DéplacementLibre = GameSettings.getCenterRoad(currentRoad) - currentPosition;
-                float Abs = Mathf.Abs(DéplacementLibre);
-                float speedMove = vitesseGaucheDroite * Time.deltaTime;
-                if (Abs < speedMove)
-                {
-                    currentPosition = GameSettings.getCenterRoad(currentRoad);
-                    DesiredAngle.y = 0;
-                }
-                else
-                {
-                    currentPosition += DéplacementLibre / Abs * speedMove;
-                    DesiredAngle.y = DéplacementLibre / Abs * 5;
-                }
-
-            }
+            
         }else // si dans les aires
         {
             heightSpeed -= GameSettings.instance.GravityAcceleration * Time.deltaTime;

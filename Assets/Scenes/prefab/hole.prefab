@@ -95,7 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   positionInitial: {x: 0, y: 0, z: 0}
   disntanceFinal: -17.32
-  vitesse: 10
+  vitesse: 0
   car: {fileID: 0}
 --- !u!65 &2032025037953887637
 BoxCollider:
